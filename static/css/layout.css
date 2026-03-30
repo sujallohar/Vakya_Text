@@ -1,0 +1,79 @@
+/* ============================================================
+   layout.css — Page layout, grid, responsive breakpoints
+   Vākya — Intelligent Writing Assistant
+   ============================================================ */
+
+/* ── Main grid ── */
+.main {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+}
+
+/* ── Left column ── */
+.left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ── Right panel ── */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ── Responsive: tablet ── */
+@media (max-width: 1100px) {
+    .main {
+        grid-template-columns: 1fr 340px;
+        padding: 28px;
+    }
+}
+
+/* ── Responsive: mobile ── */
+@media (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .right-panel {
+        order: -1;
+        /* metrics panel above editor on mobile */
+    }
+
+    header {
+        padding: 0 16px;
+    }
+
+    .logo-sub {
+        display: none;
+    }
+
+    .stats-bar {
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .action-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-primary {
+        flex: 1;
+        justify-content: center;
+    }
+}

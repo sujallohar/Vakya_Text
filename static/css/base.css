@@ -1,0 +1,170 @@
+/* ============================================================
+   base.css — Design tokens, reset, typography, animations
+   Vākya — Intelligent Writing Assistant
+   ============================================================ */
+
+/* ── Design Tokens ── */
+:root {
+    /* Backgrounds */
+    --bg: #0a0908;
+    --bg2: #111009;
+    --bg3: #1a1814;
+    --bg4: #222018;
+
+    /* Gold palette */
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --gold3: #f5dfa0;
+
+    /* Text */
+    --text: #e8e0d0;
+    --text2: #c4b99e;
+    --dim: #6b6456;
+    --muted: #8a7f6e;
+
+    /* Semantic colours */
+    --red: #e05c5c;
+    --green: #5cc48a;
+    --blue: #5c9ae0;
+
+    /* Borders */
+    --border: rgba(201, 168, 76, 0.15);
+    --border2: rgba(201, 168, 76, 0.3);
+
+    /* Misc */
+    --radius: 6px;
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Ambient background glow ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(201, 168, 76, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(201, 168, 76, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg4);
+    border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dim);
+}
+
+/* ── Typography helpers ── */
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Animations ── */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(0.85);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes copyPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.copy-pop {
+    animation: copyPop 0.2s ease;
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vākya — Intelligent Writing Assistant</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="static/css/base.css"/>
+  <link rel="stylesheet" href="static/css/components.css"/>
+  <link rel="stylesheet" href="static/css/layout.css"/>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="logo">
+      <span class="logo-name">Vākya</span>
+      <span class="logo-sub">वाक्य · Intelligent Writing</span>
+    </div>
+    <div class="header-right">
+      <div class="status-dot" id="status-dot"></div>
+      <span class="status-text" id="status-text">Ready</span>
+    </div>
+  </header>
+
+  <!-- ── Toast notifications ── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ── Main layout ── -->
+  <div class="main">
+
+    <!-- ════════ LEFT COLUMN ════════ -->
+    <div class="left-col">
+
+      <!-- Input Card -->
+      <div class="card" id="input-card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-dot"></div>
+            Input Text
+          </div>
+          <div class="toolbar">
+            <button class="voice-btn" id="voice-btn" title="Voice Input">
+              <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+            <button class="tool-btn" id="clear-btn" title="Clear">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+            <button class="tool-btn" id="paste-btn" title="Paste from clipboard">
+              <svg viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Language selector -->
+        <div class="lang-row">
+          <span class="lang-label">Language</span>
+          <select class="lang-select" id="lang-select">
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="en-AU">English (Australia)</option>
+            <option value="de-DE">German</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+            <option value="pt">Portuguese</option>
+            <option value="nl">Dutch</option>
+            <option value="it">Italian</option>
+            <option value="pl">Polish</option>
+            <option value="ru">Russian</option>
+          </select>
+          <span class="powered-by">Powered by LanguageTool</span>
+        </div>
+
+        <!-- Textarea -->
+        <div class="editor-wrap">
+          <textarea id="input-text" placeholder="Begin writing here — corrections appear instantly as you type...
+
+Try: 'Their going to the park tommorrow and will definately enjoy theirselves.'"></textarea>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-num" id="word-count">0</span>
+            <span class="stat-label">Words</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-num" id="char-count">0</span>
+            <span class="stat-label">Chars</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-num" id="sent-count">0</span>
+            <span class="stat-label">Sentences</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-num" id="read-time">0</span>
+            <span class="stat-label">Min read</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <span class="stat-num" id="error-count" style="color:var(--red)">0</span>
+            <span class="stat-label">Issues</span>
+          </div>
+        </div>
+
+        <!-- Action row -->
+        <div class="action-row">
+          <button class="btn-primary" id="check-btn">
+            <span id="check-btn-text">Check Writing</span>
+            <div class="spinner" id="check-spinner"></div>
+          </button>
+          <button class="btn-secondary" id="apply-all-btn" style="display:none">Apply All Fixes</button>
+          <button class="btn-secondary" id="copy-btn" style="margin-left:auto">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <button class="btn-secondary" id="download-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Card -->
+      <div class="card output-card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-dot"></div>
+            Corrected Output
+            <span class="badge" id="correction-badge" style="display:none">0</span>
+          </div>
+          <button class="btn-secondary" id="copy-output-btn" style="font-size:11px;padding:6px 12px">
+            Copy Result
+          </button>
+        </div>
+        <div class="output-content" id="output-content">
+          <div class="output-empty">
+            <div class="output-empty-icon">◈</div>
+            <div class="output-empty-text">Corrected text appears here</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corrections List Card -->
+      <div class="card" id="corrections-card" style="display:none">
+        <div class="section-label">
+          <span>Corrections &amp; Suggestions</span>
+          <span id="corrections-count" style="color:var(--muted);font-size:10px"></span>
+        </div>
+        <div style="padding:14px 18px">
+          <div class="corrections-list" id="corrections-list"></div>
+        </div>
+      </div>
+
+    </div><!-- /left-col -->
+
+    <!-- ════════ RIGHT PANEL ════════ -->
+    <div class="right-panel">
+
+      <!-- Writing Metrics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><div class="card-title-dot"></div>Writing Metrics</div>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="metric-val" id="m-words">—</div>
+            <div class="metric-name">Words</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val" id="m-sentences">—</div>
+            <div class="metric-name">Sentences</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val" id="m-avg-word">—</div>
+            <div class="metric-name">Avg Word Len</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val" id="m-unique">—</div>
+            <div class="metric-name">Unique Words</div>
+          </div>
+          <div class="metric-box metric-box-full">
+            <div class="metric-val" id="m-errors" style="color:var(--red)">—</div>
+            <div class="metric-name">Issues Found</div>
+            <div class="metric-sub" id="m-errors-sub">Run a check to see issues</div>
+          </div>
+        </div>
+
+        <!-- Readability -->
+        <div class="readability-section">
+          <div class="readability-label">Readability Score (Flesch)</div>
+          <div class="readability-bar-track">
+            <div class="readability-bar-fill" id="read-bar" style="width:0%;background:var(--dim)"></div>
+          </div>
+          <div class="readability-score-row">
+            <span class="readability-score-val" id="read-score">—</span>
+            <span class="readability-grade" id="read-grade">Enter some text</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Suggestions -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><div class="card-title-dot"></div>Smart Suggestions</div>
+        </div>
+        <div class="suggestions-list" id="suggestions-list">
+          <div class="suggestions-empty">Suggestions appear after checking</div>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><div class="card-title-dot"></div>About Vākya</div>
+        </div>
+        <div class="about-body">
+          <p class="about-text">
+            Vākya (वाक्य) means <em>"sentence"</em> in Sanskrit. Powered by
+            <strong>Google's LanguageTool</strong> — the world's most accurate
+            open-source grammar checker — supporting 30+ languages.
+          </p>
+          <ul class="feature-list">
+            <li><span class="feat-check">✓</span> Spelling &amp; typos</li>
+            <li><span class="feat-check">✓</span> Grammar &amp; syntax</li>
+            <li><span class="feat-check">✓</span> Punctuation</li>
+            <li><span class="feat-check">✓</span> Style &amp; clarity</li>
+            <li><span class="feat-check">✓</span> 30+ languages</li>
+          </ul>
+          <div class="shortcuts-box">
+            <div class="shortcuts-title">Keyboard shortcuts</div>
+            <div class="shortcut-item"><kbd>Ctrl+Enter</kbd> — Check writing</div>
+            <div class="shortcut-item"><kbd>Ctrl+Shift+C</kbd> — Copy result</div>
+            <div class="shortcut-item"><kbd>Ctrl+Shift+X</kbd> — Clear</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /right-panel -->
+
+  </div><!-- /main -->
+
+  <!-- Scripts (loaded at end for performance) -->
+  <script src="static/js/api.js"></script>
+  <script src="static/js/stats.js"></script>
+  <script src="static/js/diff.js"></script>
+  <script src="static/js/voice.js"></script>
+  <script src="static/js/ui.js"></script>
+  <script src="static/js/app.js"></script>
+
+</body>
+</html>
