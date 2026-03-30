@@ -62,20 +62,4 @@ Open: **http://localhost:8080/templates/index.html**
 - **Fonts:** Cormorant Garamond + JetBrains Mono + Outfit (Google Fonts)
 - **Voice:** Web Speech API (browser-native)
 
----
 
-## Resume Entry
-
-```latex
-\resumeProjectHeading
-    {\textbf{Vākya — Intelligent Writing Assistant} $|$
-     \emph{HTML, CSS, JS, Python Flask, LanguageTool API}}{}
-    \resumeItemListStart
-        \resumeItem{Built a modular grammar and spell-checking web app integrating
-          \textbf{Google's LanguageTool API} (30+ languages) with real-time diff
-          highlighting, per-rule correction cards, and confidence scoring.}
-        \resumeItem{Implemented \textbf{Flesch readability scoring}, voice input via
-          Web Speech API, live writing metrics, and one-click apply-all corrections
-          across a clean 6-file JavaScript module architecture.}
-    \resumeItemListEnd
-```
